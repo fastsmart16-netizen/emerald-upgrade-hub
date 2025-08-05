@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { 
@@ -7,21 +7,17 @@ import {
   Zap, 
   Cpu, 
   Activity,
-  Wrench,
-  Home,
-  Cable,
   Mail,
   MapPin
 } from "lucide-react";
 import Logo from "@/components/Logo";
 import ServiceCard from "@/components/ServiceCard";
-import ServiceOption from "@/components/ServiceOption";
 import LocationSearch from "@/components/LocationSearch";
 import EmergencyContact from "@/components/EmergencyContact";
 import { useToast } from "@/hooks/use-toast";
 
 const Index = () => {
-  const [expandedService, setExpandedService] = useState<string | null>(null);
+  const navigate = useNavigate();
   const { toast } = useToast();
 
   const services = [
@@ -32,43 +28,19 @@ const Index = () => {
     { id: "vfd", icon: <Activity className="w-5 h-5" />, title: "VFD Systems", visitors: "₹2,000" },
   ];
 
-  const hoistServices = [
-    {
-      icon: <Wrench className="w-5 h-5" />,
-      title: "Hoist Repair Service",
-      description: "Complete hoist mechanism repair and maintenance",
-      price: "₹5,000 - ₹15,000",
-      type: "repair" as const,
-    },
-    {
-      icon: <Home className="w-5 h-5" />,
-      title: "Hoist Rental",
-      description: "Daily rental service for hoist machines",
-      price: "₹2,000/day",
-      type: "rental" as const,
-    },
-    {
-      icon: <Cable className="w-5 h-5" />,
-      title: "Chain & Wire Rope Service",
-      description: "Chain and wire rope replacement service",
-      price: "₹1,500 - ₹8,000",
-      type: "service" as const,
-    },
-  ];
-
-  const handleServiceExpand = (serviceId: string) => {
-    setExpandedService(expandedService === serviceId ? null : serviceId);
-    toast({
-      title: "Service Details",
-      description: `Viewing details for ${services.find(s => s.id === serviceId)?.title}`,
-    });
+  const serviceRoutes = {
+    hoist: "/hoist-service",
+    crane: "/crane-service", 
+    panel: "/panel-service",
+    plc: "/plc-service",
+    vfd: "/vfd-service"
   };
 
-  const handleBookService = (serviceName: string) => {
-    toast({
-      title: "Booking Confirmed!",
-      description: `Your booking for ${serviceName} has been submitted. We'll contact you shortly.`,
-    });
+  const handleServiceExpand = (serviceId: string) => {
+    const route = serviceRoutes[serviceId as keyof typeof serviceRoutes];
+    if (route) {
+      navigate(route);
+    }
   };
 
   return (
@@ -113,35 +85,6 @@ const Index = () => {
             />
           ))}
         </div>
-
-        {/* Expanded Service Details */}
-        {expandedService === "hoist" && (
-          <Card className="border-primary/30 bg-primary/5">
-            <CardContent className="p-6">
-              <h3 className="text-xl font-bold text-foreground mb-4">Hoist Machine Services</h3>
-              <p className="text-muted-foreground mb-6">
-                Choose from our repair services or purchase options
-              </p>
-              <div className="space-y-4">
-                <h4 className="font-semibold text-foreground flex items-center gap-2">
-                  <Wrench className="w-4 h-4" />
-                  Repair & Service Options
-                </h4>
-                {hoistServices.map((service, index) => (
-                  <ServiceOption
-                    key={index}
-                    icon={service.icon}
-                    title={service.title}
-                    description={service.description}
-                    price={service.price}
-                    type={service.type}
-                    onBook={() => handleBookService(service.title)}
-                  />
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        )}
 
         {/* Emergency Services */}
         <EmergencyContact />
