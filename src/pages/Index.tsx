@@ -13,6 +13,7 @@ import {
 import Logo from "@/components/Logo";
 import ServiceCard from "@/components/ServiceCard";
 import LocationSearch from "@/components/LocationSearch";
+import GoogleLocationMap from "@/components/GoogleLocationMap";
 import EmergencyContact from "@/components/EmergencyContact";
 import { useToast } from "@/hooks/use-toast";
 
@@ -24,6 +25,8 @@ const Index = () => {
     { id: "hoist", icon: <Settings className="w-5 h-5" />, title: "Hoist Machine", visitors: "₹3,000" },
     { id: "crane", icon: <Construction className="w-5 h-5" />, title: "Crane Service", visitors: "₹5,000" },
     { id: "panel", icon: <Zap className="w-5 h-5" />, title: "Panel Service", visitors: "₹2,000" },
+    { id: "ppm-panel", icon: <Zap className="w-5 h-5" />, title: "PPM Panel", visitors: "₹2,500" },
+    { id: "hoist-crane-tpm", icon: <Construction className="w-5 h-5" />, title: "Hoist Crane TPM", visitors: "₹4,000" },
     { id: "plc", icon: <Cpu className="w-5 h-5" />, title: "PLC Systems", visitors: "₹2,500" },
     { id: "vfd", icon: <Activity className="w-5 h-5" />, title: "VFD Systems", visitors: "₹2,000" },
   ];
@@ -32,6 +35,8 @@ const Index = () => {
     hoist: "/hoist-service",
     crane: "/crane-service", 
     panel: "/panel-service",
+    "ppm-panel": "/ppm-panel-service",
+    "hoist-crane-tpm": "/hoist-crane-tpm-service",
     plc: "/plc-service",
     vfd: "/vfd-service"
   };
@@ -85,6 +90,9 @@ const Index = () => {
             />
           ))}
         </div>
+
+        {/* Google Location Map */}
+        <GoogleLocationMap />
 
         {/* Emergency Services */}
         <EmergencyContact />

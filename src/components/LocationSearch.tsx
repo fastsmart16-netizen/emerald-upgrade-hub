@@ -30,12 +30,12 @@ const LocationSearch = () => {
       <CardContent className="p-6">
         <div className="text-center mb-6">
           <h2 className="text-2xl font-bold text-foreground mb-2">
-            Home Services
+            Industrial Equipment Services
           </h2>
-          <h3 className="text-xl text-primary font-semibold mb-2">On Demand</h3>
+          <h3 className="text-xl text-primary font-semibold mb-2">Professional Repair & Maintenance</h3>
           <p className="text-muted-foreground">
-            Book trusted professionals for home cleaning, repairs, and maintenance. 
-            Quality service guaranteed at your doorstep.
+            Expert technicians for industrial machinery repair, maintenance, and installation. 
+            Quality service with guaranteed results.
           </p>
         </div>
         
