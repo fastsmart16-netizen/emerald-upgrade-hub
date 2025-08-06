@@ -8,7 +8,7 @@ import HoistService from "./pages/HoistService";
 import CraneService from "./pages/CraneService";
 import PanelService from "./pages/PanelService";
 import PPMPanelService from "./pages/PPMPanelService";
-import HoistCraneTPMService from "./pages/HoistCraneTPMService";
+import HoistCraneTPQService from "./pages/HoistCraneTPQService";
 import PLCService from "./pages/PLCService";
 import VFDService from "./pages/VFDService";
 import NotFound from "./pages/NotFound";
@@ -27,7 +27,7 @@ const App = () => (
           <Route path="/crane-service" element={<CraneService />} />
           <Route path="/panel-service" element={<PanelService />} />
           <Route path="/ppm-panel-service" element={<PPMPanelService />} />
-          <Route path="/hoist-crane-tpm-service" element={<HoistCraneTPMService />} />
+          <Route path="/hoist-crane-tpq-service" element={<HoistCraneTPQService />} />
           <Route path="/plc-service" element={<PLCService />} />
           <Route path="/vfd-service" element={<VFDService />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

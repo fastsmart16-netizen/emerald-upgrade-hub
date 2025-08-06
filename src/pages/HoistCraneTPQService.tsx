@@ -7,7 +7,7 @@ import ServiceOption from "@/components/ServiceOption";
 import EmergencyContact from "@/components/EmergencyContact";
 import { useToast } from "@/hooks/use-toast";
 
-const HoistCraneTPMService = () => {
+const HoistCraneTPQService = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -76,13 +76,13 @@ const HoistCraneTPMService = () => {
                 <Construction className="w-8 h-8 text-primary" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-foreground">Hoist Crane TPM</h1>
+                <h1 className="text-3xl font-bold text-foreground">Hoist Crane TPQ</h1>
                 <p className="text-lg text-muted-foreground">Site visiting: ₹4,000</p>
               </div>
             </div>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Total Productive Maintenance (TPM) for hoist and crane systems. Maximize equipment 
-              effectiveness, reduce breakdowns, and improve operational efficiency.
+              Total Productive Quality (TPQ) for hoist and crane systems. Maximize equipment 
+              effectiveness, reduce breakdowns, and improve operational quality.
             </p>
           </CardContent>
         </Card>
@@ -141,4 +141,4 @@ const HoistCraneTPMService = () => {
   );
 };
 
-export default HoistCraneTPMService;
+export default HoistCraneTPQService;

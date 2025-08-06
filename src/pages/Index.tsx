@@ -17,18 +17,27 @@ import GoogleLocationMap from "@/components/GoogleLocationMap";
 import EmergencyContact from "@/components/EmergencyContact";
 import { useToast } from "@/hooks/use-toast";
 
+// Import service images
+import hoistServiceImage from "@/assets/hoist-service.jpg";
+import craneServiceImage from "@/assets/crane-service.jpg";
+import panelServiceImage from "@/assets/panel-service.jpg";
+import ppmPanelServiceImage from "@/assets/ppm-panel-service.jpg";
+import hoistCraneTPQServiceImage from "@/assets/hoist-crane-tpq-service.jpg";
+import plcServiceImage from "@/assets/plc-service.jpg";
+import vfdServiceImage from "@/assets/vfd-service.jpg";
+
 const Index = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
   const services = [
-    { id: "hoist", icon: <Settings className="w-5 h-5" />, title: "Hoist Machine", visitors: "₹3,000" },
-    { id: "crane", icon: <Construction className="w-5 h-5" />, title: "Crane Service", visitors: "₹5,000" },
-    { id: "panel", icon: <Zap className="w-5 h-5" />, title: "Panel Service", visitors: "₹2,000" },
-    { id: "ppm-panel", icon: <Zap className="w-5 h-5" />, title: "PPM Panel", visitors: "₹2,500" },
-    { id: "hoist-crane-tpm", icon: <Construction className="w-5 h-5" />, title: "Hoist Crane TPM", visitors: "₹4,000" },
-    { id: "plc", icon: <Cpu className="w-5 h-5" />, title: "PLC Systems", visitors: "₹2,500" },
-    { id: "vfd", icon: <Activity className="w-5 h-5" />, title: "VFD Systems", visitors: "₹2,000" },
+    { id: "hoist", icon: <Settings className="w-5 h-5" />, title: "Hoist Machine", visitors: "₹3,000", image: hoistServiceImage },
+    { id: "crane", icon: <Construction className="w-5 h-5" />, title: "Crane Service", visitors: "₹5,000", image: craneServiceImage },
+    { id: "panel", icon: <Zap className="w-5 h-5" />, title: "Panel Service", visitors: "₹2,000", image: panelServiceImage },
+    { id: "ppm-panel", icon: <Zap className="w-5 h-5" />, title: "PPM Panel", visitors: "₹2,500", image: ppmPanelServiceImage },
+    { id: "hoist-crane-tpq", icon: <Construction className="w-5 h-5" />, title: "Hoist Crane TPQ", visitors: "₹4,000", image: hoistCraneTPQServiceImage },
+    { id: "plc", icon: <Cpu className="w-5 h-5" />, title: "PLC Systems", visitors: "₹2,500", image: plcServiceImage },
+    { id: "vfd", icon: <Activity className="w-5 h-5" />, title: "VFD Systems", visitors: "₹2,000", image: vfdServiceImage },
   ];
 
   const serviceRoutes = {
@@ -36,7 +45,7 @@ const Index = () => {
     crane: "/crane-service", 
     panel: "/panel-service",
     "ppm-panel": "/ppm-panel-service",
-    "hoist-crane-tpm": "/hoist-crane-tpm-service",
+    "hoist-crane-tpq": "/hoist-crane-tpq-service",
     plc: "/plc-service",
     vfd: "/vfd-service"
   };
@@ -80,15 +89,18 @@ const Index = () => {
         {/* Services Grid */}
         <div className="space-y-4">
           <h2 className="text-2xl font-bold text-foreground">Our Services</h2>
-          {services.map((service) => (
-            <ServiceCard
-              key={service.id}
-              icon={service.icon}
-              title={service.title}
-              visitors={service.visitors}
-              onExpand={() => handleServiceExpand(service.id)}
-            />
-          ))}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {services.map((service) => (
+              <ServiceCard
+                key={service.id}
+                icon={service.icon}
+                title={service.title}
+                visitors={service.visitors}
+                image={service.image}
+                onExpand={() => handleServiceExpand(service.id)}
+              />
+            ))}
+          </div>
         </div>
 
         {/* Google Location Map */}
