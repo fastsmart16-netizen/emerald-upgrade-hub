@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Phone, MessageCircle } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface ServiceOptionProps {
   icon: React.ReactNode;
@@ -11,6 +13,8 @@ interface ServiceOptionProps {
 }
 
 const ServiceOption = ({ icon, title, description, price, type = "service", onBook }: ServiceOptionProps) => {
+  const { toast } = useToast();
+  
   const getButtonVariant = () => {
     switch (type) {
       case "repair":
@@ -20,6 +24,37 @@ const ServiceOption = ({ icon, title, description, price, type = "service", onBo
       default:
         return "default";
     }
+  };
+
+  const handleBookNow = () => {
+    // First show booking confirmation
+    onBook();
+    
+    // Then show admin notification
+    setTimeout(() => {
+      toast({
+        title: "📱 Admin Notified!",
+        description: `New booking received for: ${title}. Customer will be contacted shortly.`,
+      });
+    }, 1500);
+  };
+
+  const handleWhatsAppBook = () => {
+    const message = encodeURIComponent(`Hi! I want to book "${title}" service. Price: ${price}. Please contact me for appointment.`);
+    window.open(`https://wa.me/918097634086?text=${message}`, '_blank');
+    
+    toast({
+      title: "WhatsApp Booking",
+      description: `Opening WhatsApp to book: ${title}`,
+    });
+  };
+
+  const handleCallBook = () => {
+    window.open('tel:+918097634086');
+    toast({
+      title: "Calling for Booking",
+      description: `Calling to book: ${title}`,
+    });
   };
 
   return (
@@ -36,10 +71,20 @@ const ServiceOption = ({ icon, title, description, price, type = "service", onBo
             </div>
           </div>
           <div className="text-right">
-            <div className="text-lg font-bold text-primary mb-2">{price}</div>
-            <Button variant={getButtonVariant()} size="sm" onClick={onBook}>
-              Book Now
-            </Button>
+            <div className="text-lg font-bold text-primary mb-3">{price}</div>
+            <div className="flex gap-2 flex-col">
+              <Button variant={getButtonVariant()} size="sm" onClick={handleBookNow}>
+                Book Now
+              </Button>
+              <div className="flex gap-1">
+                <Button variant="success" size="sm" onClick={handleWhatsAppBook}>
+                  <MessageCircle className="w-3 h-3" />
+                </Button>
+                <Button variant="urgent" size="sm" onClick={handleCallBook}>
+                  <Phone className="w-3 h-3" />
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </CardContent>
