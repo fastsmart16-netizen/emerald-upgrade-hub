@@ -7,7 +7,7 @@ import ServiceOption from "@/components/ServiceOption";
 import EmergencyContact from "@/components/EmergencyContact";
 import { useToast } from "@/hooks/use-toast";
 
-const HoistCraneTPmService = () => {
+const HoistCraneTPQService = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
