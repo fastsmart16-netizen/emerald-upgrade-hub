@@ -6,6 +6,8 @@ import Logo from "@/components/Logo";
 import ServiceOption from "@/components/ServiceOption";
 import EmergencyContact from "@/components/EmergencyContact";
 import { useToast } from "@/hooks/use-toast";
+import LocationSearch from "@/components/LocationSearch";
+import GoogleLocationMap from "@/components/GoogleLocationMap";
 
 const HoistService = () => {
   const navigate = useNavigate();
@@ -86,6 +88,12 @@ const HoistService = () => {
             </p>
           </CardContent>
         </Card>
+
+        {/* Location & Map */}
+        <div className="space-y-6 mb-8">
+          <LocationSearch />
+          <GoogleLocationMap />
+        </div>
 
         {/* Service Options */}
         <div className="space-y-6 mb-8">

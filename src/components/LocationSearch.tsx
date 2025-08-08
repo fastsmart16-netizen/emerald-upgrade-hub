@@ -78,8 +78,8 @@ const LocationSearch = () => {
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
                 className="pl-10"
-                onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-              />
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+               />
             </div>
             <Button onClick={handleSearch} className="px-6">
               <Search className="w-4 h-4 mr-2" />

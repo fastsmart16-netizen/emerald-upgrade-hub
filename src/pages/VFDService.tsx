@@ -6,6 +6,9 @@ import Logo from "@/components/Logo";
 import ServiceOption from "@/components/ServiceOption";
 import EmergencyContact from "@/components/EmergencyContact";
 import { useToast } from "@/hooks/use-toast";
+import LocationSearch from "@/components/LocationSearch";
+import GoogleLocationMap from "@/components/GoogleLocationMap";
+import vfdServiceImage from "@/assets/vfd-service.jpg";
 
 const VFDService = () => {
   const navigate = useNavigate();
@@ -71,6 +74,12 @@ const VFDService = () => {
         {/* Service Header */}
         <Card className="mb-8 bg-gradient-to-r from-primary/10 to-primary/5 border-primary/20">
           <CardContent className="p-8 text-center">
+            <img
+              src={vfdServiceImage}
+              alt="Variable Frequency Drive (VFD) services - installation, repair, programming"
+              className="w-full h-56 object-cover rounded-lg mb-6"
+              loading="eager"
+            />
             <div className="flex items-center justify-center gap-3 mb-4">
               <div className="w-16 h-16 bg-primary/20 rounded-lg flex items-center justify-center">
                 <Activity className="w-8 h-8 text-primary" />
@@ -81,11 +90,16 @@ const VFDService = () => {
               </div>
             </div>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Professional Variable Frequency Drive (VFD) services including installation, repair, 
-              programming, and optimization for energy-efficient motor control.
+              Professional Variable Frequency Drive (VFD) services including installation, repair, programming, and optimization for energy-efficient motor control.
             </p>
           </CardContent>
         </Card>
+
+        {/* Location & Map */}
+        <div className="space-y-6 mb-8">
+          <LocationSearch />
+          <GoogleLocationMap />
+        </div>
 
         {/* Service Options */}
         <div className="space-y-6 mb-8">
