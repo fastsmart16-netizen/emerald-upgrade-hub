@@ -6,8 +6,9 @@ import Logo from "@/components/Logo";
 import ServiceOption from "@/components/ServiceOption";
 import EmergencyContact from "@/components/EmergencyContact";
 import { useToast } from "@/hooks/use-toast";
+import hoistCraneTPQServiceImage from "@/assets/hoist-crane-tpq-service.jpg";
 
-const HoistCraneTPQService = () => {
+const HoistCraneTPAService = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -76,12 +77,12 @@ const HoistCraneTPQService = () => {
                 <Construction className="w-8 h-8 text-primary" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-foreground">Hoist Crane TPQ</h1>
+                <h1 className="text-3xl font-bold text-foreground">Hoist Crane TPA</h1>
                 <p className="text-lg text-muted-foreground">Site visiting: ₹4,000</p>
               </div>
             </div>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Total Productive Quality (TPQ) for hoist and crane systems. Maximize equipment 
+              Total Productive Quality (TPA) for hoist and crane systems. Maximize equipment 
               effectiveness, reduce breakdowns, and improve operational quality.
             </p>
           </CardContent>
@@ -134,6 +135,18 @@ const HoistCraneTPQService = () => {
           </CardContent>
         </Card>
 
+        {/* Inside Photo */}
+        <Card className="mb-8 border-primary/20">
+          <CardContent className="p-0">
+            <img
+              src={hoistCraneTPQServiceImage}
+              alt="Hoist and crane TPA service photo"
+              className="w-full h-64 object-cover rounded-lg"
+              loading="lazy"
+            />
+          </CardContent>
+        </Card>
+
         {/* Emergency Contact */}
         <EmergencyContact />
       </div>
@@ -141,4 +154,4 @@ const HoistCraneTPQService = () => {
   );
 };
 
-export default HoistCraneTPQService;
+export default HoistCraneTPAService;

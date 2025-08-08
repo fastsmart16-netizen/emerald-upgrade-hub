@@ -6,6 +6,7 @@ import Logo from "@/components/Logo";
 import ServiceOption from "@/components/ServiceOption";
 import EmergencyContact from "@/components/EmergencyContact";
 import { useToast } from "@/hooks/use-toast";
+import plcServiceImage from "@/assets/plc-service.jpg";
 
 const PLCService = () => {
   const navigate = useNavigate();
@@ -131,6 +132,18 @@ const PLCService = () => {
                 <p className="text-muted-foreground">Remote diagnostics and programming support to minimize downtime.</p>
               </div>
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Inside Photo */}
+        <Card className="mb-8 border-primary/20">
+          <CardContent className="p-0">
+            <img
+              src={plcServiceImage}
+              alt="PLC programming, repair and installation service photo"
+              className="w-full h-64 object-cover rounded-lg"
+              loading="lazy"
+            />
           </CardContent>
         </Card>
 

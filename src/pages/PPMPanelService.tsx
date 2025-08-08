@@ -6,6 +6,7 @@ import Logo from "@/components/Logo";
 import ServiceOption from "@/components/ServiceOption";
 import EmergencyContact from "@/components/EmergencyContact";
 import { useToast } from "@/hooks/use-toast";
+import ppmPanelServiceImage from "@/assets/ppm-panel-service.jpg";
 
 const PPMPanelService = () => {
   const navigate = useNavigate();
@@ -131,6 +132,18 @@ const PPMPanelService = () => {
                 <p className="text-muted-foreground">Certified electrical technicians with extensive panel maintenance experience.</p>
               </div>
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Inside Photo */}
+        <Card className="mb-8 border-primary/20">
+          <CardContent className="p-0">
+            <img
+              src={ppmPanelServiceImage}
+              alt="PPM panel preventive maintenance service photo"
+              className="w-full h-64 object-cover rounded-lg"
+              loading="lazy"
+            />
           </CardContent>
         </Card>
 

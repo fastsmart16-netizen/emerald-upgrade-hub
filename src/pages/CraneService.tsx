@@ -6,6 +6,7 @@ import Logo from "@/components/Logo";
 import ServiceOption from "@/components/ServiceOption";
 import EmergencyContact from "@/components/EmergencyContact";
 import { useToast } from "@/hooks/use-toast";
+import craneServiceImage from "@/assets/crane-service.jpg";
 
 const CraneService = () => {
   const navigate = useNavigate();
@@ -131,6 +132,18 @@ const CraneService = () => {
                 <p className="text-muted-foreground">Regular maintenance programs to prevent costly breakdowns and extend equipment life.</p>
               </div>
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Inside Photo */}
+        <Card className="mb-8 border-primary/20">
+          <CardContent className="p-0">
+            <img
+              src={craneServiceImage}
+              alt="Crane repair, rental, and installation service photo"
+              className="w-full h-64 object-cover rounded-lg"
+              loading="lazy"
+            />
           </CardContent>
         </Card>
 

@@ -35,7 +35,7 @@ const Index = () => {
     { id: "crane", icon: <Construction className="w-5 h-5" />, title: "Crane Service", visitors: "₹5,000", image: craneServiceImage },
     { id: "panel", icon: <Zap className="w-5 h-5" />, title: "Panel Service", visitors: "₹2,000", image: panelServiceImage },
     { id: "ppm-panel", icon: <Zap className="w-5 h-5" />, title: "PPM Panel", visitors: "₹2,500", image: ppmPanelServiceImage },
-    { id: "hoist-crane-tpq", icon: <Construction className="w-5 h-5" />, title: "Hoist Crane TPQ", visitors: "₹4,000", image: hoistCraneTPQServiceImage },
+    { id: "hoist-crane-tpa", icon: <Construction className="w-5 h-5" />, title: "Hoist Crane TPA", visitors: "₹4,000", image: hoistCraneTPQServiceImage },
     { id: "plc", icon: <Cpu className="w-5 h-5" />, title: "PLC Systems", visitors: "₹2,500", image: plcServiceImage },
     { id: "vfd", icon: <Activity className="w-5 h-5" />, title: "VFD Systems", visitors: "₹2,000", image: vfdServiceImage },
   ];
@@ -45,7 +45,7 @@ const Index = () => {
     crane: "/crane-service", 
     panel: "/panel-service",
     "ppm-panel": "/ppm-panel-service",
-    "hoist-crane-tpq": "/hoist-crane-tpq-service",
+    "hoist-crane-tpa": "/hoist-crane-tpa-service",
     plc: "/plc-service",
     vfd: "/vfd-service"
   };
