@@ -148,6 +148,18 @@ const VFDService = () => {
           </CardContent>
         </Card>
 
+        {/* VFD Photo (Inside Page) */}
+        <Card className="mb-8 border-primary/20">
+          <CardContent className="p-0">
+            <img
+              src={vfdServiceImage}
+              alt="VFD system repair and installation example at client site"
+              className="w-full h-64 object-cover rounded-lg"
+              loading="lazy"
+            />
+          </CardContent>
+        </Card>
+
         {/* Emergency Contact */}
         <EmergencyContact />
       </div>
