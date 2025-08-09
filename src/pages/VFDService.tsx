@@ -8,6 +8,7 @@ import EmergencyContact from "@/components/EmergencyContact";
 import { useToast } from "@/hooks/use-toast";
 import LocationSearch from "@/components/LocationSearch";
 import GoogleLocationMap from "@/components/GoogleLocationMap";
+import ServicePhotos from "@/components/ServicePhotos";
 import vfdServiceImage from "@/assets/vfd-service.jpg";
 
 const VFDService = () => {
@@ -95,6 +96,9 @@ const VFDService = () => {
           </CardContent>
         </Card>
 
+        {/* Photos */}
+        <ServicePhotos images={[{ src: vfdServiceImage, alt: "Variable Frequency Drive (VFD) systems photo" }]} />
+
         {/* Location & Map */}
         <div className="space-y-6 mb-8">
           <LocationSearch />
@@ -145,18 +149,6 @@ const VFDService = () => {
                 <p className="text-muted-foreground">Regular maintenance programs to ensure optimal VFD performance and longevity.</p>
               </div>
             </div>
-          </CardContent>
-        </Card>
-
-        {/* VFD Photo (Inside Page) */}
-        <Card className="mb-8 border-primary/20">
-          <CardContent className="p-0">
-            <img
-              src={vfdServiceImage}
-              alt="VFD system repair and installation example at client site"
-              className="w-full h-64 object-cover rounded-lg"
-              loading="lazy"
-            />
           </CardContent>
         </Card>
 

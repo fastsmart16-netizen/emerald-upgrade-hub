@@ -6,6 +6,7 @@ import Logo from "@/components/Logo";
 import ServiceOption from "@/components/ServiceOption";
 import EmergencyContact from "@/components/EmergencyContact";
 import { useToast } from "@/hooks/use-toast";
+import ServicePhotos from "@/components/ServicePhotos";
 import plcServiceImage from "@/assets/plc-service.jpg";
 
 const PLCService = () => {
@@ -88,6 +89,9 @@ const PLCService = () => {
           </CardContent>
         </Card>
 
+        {/* Photos */}
+        <ServicePhotos images={[{ src: plcServiceImage, alt: "PLC programming, repair and installation service photo" }]} />
+
         {/* Service Options */}
         <div className="space-y-6 mb-8">
           <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
@@ -132,18 +136,6 @@ const PLCService = () => {
                 <p className="text-muted-foreground">Remote diagnostics and programming support to minimize downtime.</p>
               </div>
             </div>
-          </CardContent>
-        </Card>
-
-        {/* Inside Photo */}
-        <Card className="mb-8 border-primary/20">
-          <CardContent className="p-0">
-            <img
-              src={plcServiceImage}
-              alt="PLC programming, repair and installation service photo"
-              className="w-full h-64 object-cover rounded-lg"
-              loading="lazy"
-            />
           </CardContent>
         </Card>
 

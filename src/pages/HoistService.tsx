@@ -8,6 +8,7 @@ import EmergencyContact from "@/components/EmergencyContact";
 import { useToast } from "@/hooks/use-toast";
 import LocationSearch from "@/components/LocationSearch";
 import GoogleLocationMap from "@/components/GoogleLocationMap";
+import ServicePhotos from "@/components/ServicePhotos";
 import hoistServiceImage from "@/assets/hoist-service.jpg";
 
 const HoistService = () => {
@@ -90,6 +91,9 @@ const HoistService = () => {
           </CardContent>
         </Card>
 
+        {/* Photos */}
+        <ServicePhotos images={[{ src: hoistServiceImage, alt: "Hoist machine repair, rental and maintenance photo" }]} />
+
         {/* Location & Map */}
         <div className="space-y-6 mb-8">
           <LocationSearch />
@@ -140,18 +144,6 @@ const HoistService = () => {
                 <p className="text-muted-foreground">All our repair services come with comprehensive warranty coverage.</p>
               </div>
             </div>
-          </CardContent>
-        </Card>
-
-        {/* Inside Photo */}
-        <Card className="mb-8 border-primary/20">
-          <CardContent className="p-0">
-            <img
-              src={hoistServiceImage}
-              alt="Hoist machine repair and rental service photo"
-              className="w-full h-64 object-cover rounded-lg"
-              loading="lazy"
-            />
           </CardContent>
         </Card>
 
