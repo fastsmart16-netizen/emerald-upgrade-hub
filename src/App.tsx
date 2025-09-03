@@ -11,6 +11,7 @@ import PPMPanelService from "./pages/PPMPanelService";
 import HoistCraneTPAService from "./pages/HoistCraneTPAService";
 import PLCService from "./pages/PLCService";
 import VFDService from "./pages/VFDService";
+import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const App = () => (
           <Route path="/hoist-crane-tpa-service" element={<HoistCraneTPAService />} />
           <Route path="/plc-service" element={<PLCService />} />
           <Route path="/vfd-service" element={<VFDService />} />
+          <Route path="/admin" element={<Admin />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -2,11 +2,6 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { 
-  Settings, 
-  Construction, 
-  Zap, 
-  Cpu, 
-  Activity,
   Mail,
   MapPin
 } from "lucide-react";
@@ -16,29 +11,12 @@ import LocationSearch from "@/components/LocationSearch";
 import GoogleLocationMap from "@/components/GoogleLocationMap";
 import EmergencyContact from "@/components/EmergencyContact";
 import { useToast } from "@/hooks/use-toast";
-
-// Import service images
-import hoistServiceImage from "@/assets/hoist-service.jpg";
-import craneServiceImage from "@/assets/crane-service.jpg";
-import panelServiceImage from "@/assets/panel-service.jpg";
-import ppmPanelServiceImage from "@/assets/ppm-panel-service.jpg";
-import hoistCraneTPQServiceImage from "@/assets/hoist-crane-tpq-service.jpg";
-import plcServiceImage from "@/assets/plc-service.jpg";
-import vfdServiceImage from "@/assets/vfd-service.jpg";
+import { useAdminServices } from "@/hooks/useAdminServices";
 
 const Index = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-
-  const services = [
-    { id: "hoist", icon: <Settings className="w-5 h-5" />, title: "Hoist Machine", visitors: "₹3,000", image: hoistServiceImage },
-    { id: "crane", icon: <Construction className="w-5 h-5" />, title: "Crane Service", visitors: "₹5,000", image: craneServiceImage },
-    { id: "panel", icon: <Zap className="w-5 h-5" />, title: "Panel Service", visitors: "₹2,000", image: panelServiceImage },
-    { id: "ppm-panel", icon: <Zap className="w-5 h-5" />, title: "PPM Panel", visitors: "₹2,500", image: ppmPanelServiceImage },
-    { id: "hoist-crane-tpa", icon: <Construction className="w-5 h-5" />, title: "Hoist Crane TPA", visitors: "₹4,000", image: hoistCraneTPQServiceImage },
-    { id: "plc", icon: <Cpu className="w-5 h-5" />, title: "PLC Systems", visitors: "₹2,500", image: plcServiceImage },
-    { id: "vfd", icon: <Activity className="w-5 h-5" />, title: "VFD Systems", visitors: "₹2,000", image: vfdServiceImage },
-  ];
+  const services = useAdminServices();
 
   const serviceRoutes = {
     hoist: "/hoist-service",
@@ -64,9 +42,14 @@ const Index = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Logo />
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Mail className="w-4 h-4" />
-              <span>fastsmart16@gmail.com</span>
+            <div className="flex items-center gap-4">
+              <Button variant="outline" size="sm" onClick={() => navigate("/admin")}>
+                Admin Panel
+              </Button>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Mail className="w-4 h-4" />
+                <span>fastsmart16@gmail.com</span>
+              </div>
             </div>
           </div>
         </div>
