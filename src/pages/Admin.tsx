@@ -15,20 +15,18 @@ import {
   Edit,
   Trash2,
   Save,
-  ArrowLeft
+  ArrowLeft,
+  Download,
+  Upload,
+  Search,
+  AlertCircle
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Logo from "@/components/Logo";
+import { serviceManager, ServiceData } from "@/utils/serviceManager";
 
-// Define service type
-interface Service {
-  id: string;
-  title: string;
-  price: string;
-  description: string;
-  icon: string;
-  image?: string;
-}
+// Define service type alias
+type Service = ServiceData;
 
 // Icon options for services
 const iconOptions = [
@@ -44,6 +42,7 @@ const Admin = () => {
   const { toast } = useToast();
   const [services, setServices] = useState<Service[]>([]);
   const [editingService, setEditingService] = useState<Service | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const [formData, setFormData] = useState({
     title: "",
     price: "",
@@ -51,31 +50,16 @@ const Admin = () => {
     icon: "Settings"
   });
 
-  // Load services from localStorage on component mount
+  // Load services and subscribe to changes
   useEffect(() => {
-    const savedServices = localStorage.getItem('adminServices');
-    if (savedServices) {
-      setServices(JSON.parse(savedServices));
-    } else {
-      // Initialize with default services
-      const defaultServices: Service[] = [
-        { id: "hoist", title: "Hoist Machine", price: "₹3,000", description: "Professional hoist machine repair and maintenance", icon: "Settings" },
-        { id: "crane", title: "Crane Service", price: "₹5,000", description: "Expert crane repair and maintenance services", icon: "Construction" },
-        { id: "panel", title: "Panel Service", price: "₹2,000", description: "Electrical panel repair and installation", icon: "Zap" },
-        { id: "ppm-panel", title: "PPM Panel", price: "₹2,500", description: "Preventive maintenance for panels", icon: "Zap" },
-        { id: "hoist-crane-tpa", title: "Hoist Crane TPA", price: "₹4,000", description: "Third party audit for hoist crane", icon: "Construction" },
-        { id: "plc", title: "PLC Systems", price: "₹2,500", description: "PLC programming and repair services", icon: "Cpu" },
-        { id: "vfd", title: "VFD Systems", price: "₹2,000", description: "Variable frequency drive services", icon: "Activity" },
-      ];
-      setServices(defaultServices);
-      localStorage.setItem('adminServices', JSON.stringify(defaultServices));
-    }
-  }, []);
+    setServices(serviceManager.getServices());
+    
+    const unsubscribe = serviceManager.subscribe((updatedServices) => {
+      setServices(updatedServices);
+    });
 
-  // Save services to localStorage whenever services change
-  useEffect(() => {
-    localStorage.setItem('adminServices', JSON.stringify(services));
-  }, [services]);
+    return unsubscribe;
+  }, []);
 
   const handleAddService = () => {
     if (!formData.title.trim() || !formData.price.trim()) {
@@ -87,15 +71,22 @@ const Admin = () => {
       return;
     }
 
-    const newService: Service = {
-      id: formData.title.toLowerCase().replace(/\s+/g, '-'),
+    const success = serviceManager.addService({
       title: formData.title,
       price: formData.price,
       description: formData.description,
       icon: formData.icon
-    };
+    });
 
-    setServices(prev => [...prev, newService]);
+    if (!success) {
+      toast({
+        title: "Error",
+        description: "A service with this name already exists. Please choose a different name.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     setFormData({ title: "", price: "", description: "", icon: "Settings" });
     
     toast({
@@ -117,33 +108,105 @@ const Admin = () => {
   const handleUpdateService = () => {
     if (!editingService) return;
 
-    setServices(prev => prev.map(service => 
-      service.id === editingService.id 
-        ? { ...service, title: formData.title, price: formData.price, description: formData.description, icon: formData.icon }
-        : service
-    ));
-
-    setEditingService(null);
-    setFormData({ title: "", price: "", description: "", icon: "Settings" });
-    
-    toast({
-      title: "Success",
-      description: "Service updated successfully!"
+    const success = serviceManager.updateService(editingService.id, {
+      title: formData.title,
+      price: formData.price,
+      description: formData.description,
+      icon: formData.icon
     });
+
+    if (success) {
+      setEditingService(null);
+      setFormData({ title: "", price: "", description: "", icon: "Settings" });
+      
+      toast({
+        title: "Success",
+        description: "Service updated successfully!"
+      });
+    } else {
+      toast({
+        title: "Error",
+        description: "Failed to update service",
+        variant: "destructive"
+      });
+    }
   };
 
   const handleDeleteService = (serviceId: string) => {
-    setServices(prev => prev.filter(service => service.id !== serviceId));
+    if (window.confirm("Are you sure you want to delete this service? This action cannot be undone.")) {
+      const success = serviceManager.deleteService(serviceId);
+      
+      if (success) {
+        toast({
+          title: "Success",
+          description: "Service deleted successfully!"
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to delete service",
+          variant: "destructive"
+        });
+      }
+    }
+  };
+
+  const handleExportServices = () => {
+    const dataStr = serviceManager.exportServices();
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'services-backup.json';
+    link.click();
+    URL.revokeObjectURL(url);
+    
     toast({
       title: "Success",
-      description: "Service deleted successfully!"
+      description: "Services exported successfully!"
     });
+  };
+
+  const handleImportServices = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const content = e.target?.result as string;
+        const success = serviceManager.importServices(content);
+        
+        if (success) {
+          toast({
+            title: "Success",
+            description: "Services imported successfully!"
+          });
+        } else {
+          throw new Error("Invalid file format");
+        }
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Failed to import services. Please check the file format.",
+          variant: "destructive"
+        });
+      }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
   };
 
   const getIconComponent = (iconName: string) => {
     const icon = iconOptions.find(opt => opt.value === iconName);
     return icon ? icon.component : Settings;
   };
+
+  const filteredServices = services.filter(service => 
+    service.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    service.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    service.price.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-background">
@@ -257,11 +320,61 @@ const Admin = () => {
           </CardContent>
         </Card>
 
-        {/* Services List */}
-        <div className="space-y-4">
-          <h2 className="text-2xl font-bold text-foreground">Current Services ({services.length})</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {services.map((service) => {
+        {/* Services Management */}
+        <div className="space-y-6">
+          <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
+            <h2 className="text-2xl font-bold text-foreground">Current Services ({services.length})</h2>
+            
+            <div className="flex flex-wrap gap-2">
+              <div className="relative">
+                <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  placeholder="Search services..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 w-64"
+                />
+              </div>
+              
+              <Button variant="outline" size="sm" onClick={handleExportServices}>
+                <Download className="w-4 h-4 mr-2" />
+                Export
+              </Button>
+              
+              <div className="relative">
+                <input
+                  type="file"
+                  accept=".json"
+                  onChange={handleImportServices}
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                  id="import-services"
+                />
+                <Button variant="outline" size="sm" asChild>
+                  <label htmlFor="import-services" className="cursor-pointer flex items-center">
+                    <Upload className="w-4 h-4 mr-2" />
+                    Import
+                  </label>
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          {filteredServices.length === 0 ? (
+            <Card className="p-8 text-center">
+              <AlertCircle className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
+              <h3 className="text-lg font-semibold text-foreground mb-2">
+                {searchQuery ? "No services found" : "No services available"}
+              </h3>
+              <p className="text-muted-foreground">
+                {searchQuery 
+                  ? "Try adjusting your search terms" 
+                  : "Add your first service using the form above"
+                }
+              </p>
+            </Card>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredServices.map((service) => {
               const IconComponent = getIconComponent(service.icon);
               return (
                 <Card key={service.id} className="relative group">
@@ -277,27 +390,28 @@ const Admin = () => {
                     </div>
                     <p className="text-sm text-muted-foreground mb-4">{service.description}</p>
                     
-                    <div className="flex gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleEditService(service)}
-                      >
-                        <Edit className="w-4 h-4" />
-                      </Button>
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => handleDeleteService(service.id)}
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
+                     <div className="flex gap-2">
+                       <Button
+                         variant="outline"
+                         size="sm"
+                         onClick={() => handleEditService(service)}
+                       >
+                         <Edit className="w-4 h-4" />
+                       </Button>
+                       <Button
+                         variant="destructive"
+                         size="sm"
+                         onClick={() => handleDeleteService(service.id)}
+                       >
+                         <Trash2 className="w-4 h-4" />
+                       </Button>
+                     </div>
+                   </CardContent>
+                 </Card>
+               );
+             })}
+           </div>
+          )}
         </div>
       </div>
     </div>

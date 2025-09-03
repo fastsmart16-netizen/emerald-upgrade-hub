@@ -6,6 +6,7 @@ import {
   Cpu, 
   Activity 
 } from "lucide-react";
+import { serviceManager, ServiceData } from "@/utils/serviceManager";
 
 // Import service images
 import hoistServiceImage from "@/assets/hoist-service.jpg";
@@ -15,15 +16,6 @@ import ppmPanelServiceImage from "@/assets/ppm-panel-service.jpg";
 import hoistCraneTPAServiceImage from "@/assets/hoist-crane-tpq-service.jpg";
 import plcServiceImage from "@/assets/plc-service.jpg";
 import vfdServiceImage from "@/assets/vfd-service.jpg";
-
-interface AdminService {
-  id: string;
-  title: string;
-  price: string;
-  description: string;
-  icon: string;
-  image?: string;
-}
 
 interface DisplayService {
   id: string;
@@ -57,29 +49,11 @@ export const useAdminServices = () => {
   const [services, setServices] = useState<DisplayService[]>([]);
 
   useEffect(() => {
-    const loadServices = () => {
-      const savedServices = localStorage.getItem('adminServices');
-      let adminServices: AdminService[] = [];
-
-      if (savedServices) {
-        adminServices = JSON.parse(savedServices);
-      } else {
-        // Default services
-        adminServices = [
-          { id: "hoist", title: "Hoist Machine", price: "₹3,000", description: "Professional hoist machine repair and maintenance", icon: "Settings" },
-          { id: "crane", title: "Crane Service", price: "₹5,000", description: "Expert crane repair and maintenance services", icon: "Construction" },
-          { id: "panel", title: "Panel Service", price: "₹2,000", description: "Electrical panel repair and installation", icon: "Zap" },
-          { id: "ppm-panel", title: "PPM Panel", price: "₹2,500", description: "Preventive maintenance for panels", icon: "Zap" },
-          { id: "hoist-crane-tpa", title: "Hoist Crane TPA", price: "₹4,000", description: "Third party audit for hoist crane", icon: "Construction" },
-          { id: "plc", title: "PLC Systems", price: "₹2,500", description: "PLC programming and repair services", icon: "Cpu" },
-          { id: "vfd", title: "VFD Systems", price: "₹2,000", description: "Variable frequency drive services", icon: "Activity" },
-        ];
-      }
-
-      // Convert admin services to display services
-      const displayServices: DisplayService[] = adminServices.map(service => {
+    const convertToDisplayServices = (adminServices: ServiceData[]): DisplayService[] => {
+      return adminServices.map(service => {
         const IconComponent = iconMap[service.icon as keyof typeof iconMap] || Settings;
-        const image = imageMap[service.id] || hoistServiceImage;
+        // Use specific image if available, otherwise use default from mapping or fallback
+        const image = service.image || imageMap[service.id] || hoistServiceImage;
 
         return {
           id: service.id,
@@ -89,24 +63,17 @@ export const useAdminServices = () => {
           image: image
         };
       });
-
-      setServices(displayServices);
     };
 
-    loadServices();
-
-    // Listen for storage changes to update services in real-time
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'adminServices') {
-        loadServices();
-      }
-    };
-
-    window.addEventListener('storage', handleStorageChange);
+    // Initial load
+    setServices(convertToDisplayServices(serviceManager.getServices()));
     
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
+    // Subscribe to changes
+    const unsubscribe = serviceManager.subscribe((updatedServices) => {
+      setServices(convertToDisplayServices(updatedServices));
+    });
+
+    return unsubscribe;
   }, []);
 
   return services;
