@@ -43,9 +43,6 @@ const Index = () => {
           <div className="flex items-center justify-between">
             <Logo />
             <div className="flex items-center gap-4">
-              <Button variant="outline" size="sm" onClick={() => navigate("/admin")}>
-                Admin Panel
-              </Button>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Mail className="w-4 h-4" />
                 <span>fastsmart16@gmail.com</span>

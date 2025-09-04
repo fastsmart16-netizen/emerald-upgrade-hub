@@ -31,7 +31,7 @@ const App = () => (
           <Route path="/hoist-crane-tpa-service" element={<HoistCraneTPAService />} />
           <Route path="/plc-service" element={<PLCService />} />
           <Route path="/vfd-service" element={<VFDService />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/secure-admin-panel-2024" element={<Admin />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
