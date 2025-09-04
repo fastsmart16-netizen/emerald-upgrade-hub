@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Phone, MessageCircle } from "lucide-react";
+import { Phone, MessageCircle, Mail } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface ServiceOptionProps {
@@ -57,6 +57,28 @@ const ServiceOption = ({ icon, title, description, price, type = "service", onBo
     });
   };
 
+  const handleEmailBook = () => {
+    const subject = encodeURIComponent(`Service Booking Request: ${title}`);
+    const body = encodeURIComponent(`Hi,
+
+I would like to book the following service:
+
+Service: ${title}
+Description: ${description}
+Price: ${price}
+
+Please contact me to schedule an appointment.
+
+Thank you!`);
+    
+    window.open(`mailto:fastsmart16@gmail.com?subject=${subject}&body=${body}`, '_blank');
+    
+    toast({
+      title: "Email Booking",
+      description: `Opening email to book: ${title}`,
+    });
+  };
+
   return (
     <Card className="mb-4 border-primary/20 hover:border-primary/40 transition-all duration-300">
       <CardContent className="p-4">
@@ -79,6 +101,9 @@ const ServiceOption = ({ icon, title, description, price, type = "service", onBo
               <div className="flex gap-1">
                 <Button variant="success" size="sm" onClick={handleWhatsAppBook}>
                   <MessageCircle className="w-3 h-3" />
+                </Button>
+                <Button variant="secondary" size="sm" onClick={handleEmailBook}>
+                  <Mail className="w-3 h-3" />
                 </Button>
                 <Button variant="urgent" size="sm" onClick={handleCallBook}>
                   <Phone className="w-3 h-3" />
