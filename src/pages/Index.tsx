@@ -3,7 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { 
   Mail,
-  MapPin
+  MapPin,
+  Settings,
+  LogOut,
+  User
 } from "lucide-react";
 import Logo from "@/components/Logo";
 import ServiceCard from "@/components/ServiceCard";
@@ -12,11 +15,13 @@ import GoogleLocationMap from "@/components/GoogleLocationMap";
 import EmergencyContact from "@/components/EmergencyContact";
 import { useToast } from "@/hooks/use-toast";
 import { useAdminServices } from "@/hooks/useAdminServices";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Index = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const services = useAdminServices();
+  const { user, signOut, isAdmin } = useAuth();
 
   const serviceRoutes = {
     hoist: "/hoist-service",
@@ -35,6 +40,14 @@ const Index = () => {
     }
   };
 
+  const handleAuthAction = () => {
+    if (user) {
+      signOut();
+    } else {
+      navigate('/auth');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -43,10 +56,49 @@ const Index = () => {
           <div className="flex items-center justify-between">
             <Logo />
             <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Mail className="w-4 h-4" />
-                <span>fastsmart16@gmail.com</span>
-              </div>
+              {user ? (
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-muted-foreground">
+                    Welcome, {user.user_metadata?.name || user.email}
+                  </span>
+                  {isAdmin && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => navigate('/admin')}
+                      className="gap-2"
+                    >
+                      <Settings className="h-4 w-4" />
+                      Admin
+                    </Button>
+                  )}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleAuthAction}
+                    className="gap-2"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    Sign Out
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleAuthAction}
+                    className="gap-2"
+                  >
+                    <User className="h-4 w-4" />
+                    Sign In
+                  </Button>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Mail className="w-4 h-4" />
+                    <span>fastsmart16@gmail.com</span>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
