@@ -14,6 +14,7 @@ import HoistCraneTPAService from "./pages/HoistCraneTPAService";
 import PLCService from "./pages/PLCService";
 import VFDService from "./pages/VFDService";
 import Admin from "./pages/Admin";
+import AddService from "./pages/AddService";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 
@@ -39,6 +40,11 @@ const App = () => (
             <Route path="/admin" element={
               <ProtectedRoute requireAdmin={true}>
                 <Admin />
+              </ProtectedRoute>
+            } />
+            <Route path="/add-service" element={
+              <ProtectedRoute requireAdmin={true}>
+                <AddService />
               </ProtectedRoute>
             } />
             <Route path="/secure-admin-panel-2024" element={
