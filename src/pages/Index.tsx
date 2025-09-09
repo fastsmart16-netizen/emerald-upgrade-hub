@@ -23,21 +23,8 @@ const Index = () => {
   const { services, loading, error } = useSupabaseServices();
   const { user, signOut, isAdmin } = useAuth();
 
-  const serviceRoutes = {
-    hoist: "/hoist-service",
-    crane: "/crane-service", 
-    panel: "/panel-service",
-    "ppm-panel": "/ppm-panel-service",
-    "hoist-crane-tpa": "/hoist-crane-tpa-service",
-    plc: "/plc-service",
-    vfd: "/vfd-service"
-  };
-
   const handleServiceExpand = (serviceId: string) => {
-    const route = serviceRoutes[serviceId as keyof typeof serviceRoutes];
-    if (route) {
-      navigate(route);
-    }
+    navigate(`/service/${serviceId}`);
   };
 
   const handleAuthAction = () => {

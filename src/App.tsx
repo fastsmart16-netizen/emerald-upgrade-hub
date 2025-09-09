@@ -6,13 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
-import HoistService from "./pages/HoistService";
-import CraneService from "./pages/CraneService";
-import PanelService from "./pages/PanelService";
-import PPMPanelService from "./pages/PPMPanelService";
-import HoistCraneTPAService from "./pages/HoistCraneTPAService";
-import PLCService from "./pages/PLCService";
-import VFDService from "./pages/VFDService";
+import ServiceDetails from "./pages/ServiceDetails";
 import Admin from "./pages/Admin";
 import AddService from "./pages/AddService";
 import Auth from "./pages/Auth";
@@ -30,13 +24,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
-            <Route path="/hoist-service" element={<HoistService />} />
-            <Route path="/crane-service" element={<CraneService />} />
-            <Route path="/panel-service" element={<PanelService />} />
-            <Route path="/ppm-panel-service" element={<PPMPanelService />} />
-            <Route path="/hoist-crane-tpa-service" element={<HoistCraneTPAService />} />
-            <Route path="/plc-service" element={<PLCService />} />
-            <Route path="/vfd-service" element={<VFDService />} />
+            <Route path="/service/:serviceId" element={<ServiceDetails />} />
             <Route path="/admin" element={
               <ProtectedRoute requireAdmin={true}>
                 <Admin />
@@ -47,12 +35,6 @@ const App = () => (
                 <AddService />
               </ProtectedRoute>
             } />
-            <Route path="/secure-admin-panel-2024" element={
-              <ProtectedRoute requireAdmin={true}>
-                <Admin />
-              </ProtectedRoute>
-            } />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
