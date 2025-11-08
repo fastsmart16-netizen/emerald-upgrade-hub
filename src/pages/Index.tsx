@@ -14,13 +14,13 @@ import LocationSearch from "@/components/LocationSearch";
 import GoogleLocationMap from "@/components/GoogleLocationMap";
 import EmergencyContact from "@/components/EmergencyContact";
 import { useToast } from "@/hooks/use-toast";
-import { useSupabaseServices } from "@/hooks/useSupabaseServices";
+import { useAdminServices } from "@/hooks/useAdminServices";
 import { useAuth } from "@/contexts/AuthContext";
 
 const Index = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { services, loading, error } = useSupabaseServices();
+  const services = useAdminServices();
   const { user, signOut, isAdmin } = useAuth();
 
   const handleServiceExpand = (serviceId: string) => {
@@ -108,36 +108,18 @@ const Index = () => {
         {/* Services Grid */}
         <div className="space-y-4">
           <h2 className="text-2xl font-bold text-foreground">Our Services</h2>
-          {loading ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[...Array(6)].map((_, i) => (
-                <div key={i} className="animate-pulse">
-                  <div className="bg-muted h-48 rounded-t-lg"></div>
-                  <div className="p-4 space-y-2">
-                    <div className="h-4 bg-muted rounded w-3/4"></div>
-                    <div className="h-3 bg-muted rounded w-1/2"></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : error ? (
-            <div className="text-center py-8">
-              <p className="text-muted-foreground">Error loading services: {error}</p>
-            </div>
-          ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {services.map((service) => (
-                <ServiceCard
-                  key={service.id}
-                  icon={service.icon}
-                  title={service.title}
-                  visitors={service.visitors}
-                  image={service.image}
-                  onExpand={() => handleServiceExpand(service.id)}
-                />
-              ))}
-            </div>
-          )}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {services.map((service) => (
+              <ServiceCard
+                key={service.id}
+                icon={service.icon}
+                title={service.title}
+                visitors={service.visitors}
+                image={service.image}
+                onExpand={() => handleServiceExpand(service.id)}
+              />
+            ))}
+          </div>
         </div>
 
         {/* Google Location Map */}
