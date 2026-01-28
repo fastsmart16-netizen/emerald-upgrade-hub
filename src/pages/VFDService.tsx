@@ -55,7 +55,7 @@ const VFDService = () => {
             <Logo />
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Mail className="w-4 h-4" />
-              <span>fastsmart16@gmail.com</span>
+              <span>surajvishwa23@gmail.com</span>
             </div>
           </div>
         </div>
