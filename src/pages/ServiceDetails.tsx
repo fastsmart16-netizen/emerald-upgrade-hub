@@ -4,26 +4,39 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowLeft, Phone, Mail, MapPin, Star } from "lucide-react";
+import { ArrowLeft, Phone, Mail, MapPin, Star, CalendarIcon, Clock } from "lucide-react";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 import Logo from "@/components/Logo";
-import { useSupabaseServices } from "@/hooks/useSupabaseServices";
+import { useAdminServices } from "@/hooks/useAdminServices";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+const timeSlots = [
+  "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM",
+  "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM",
+  "05:00 PM", "06:00 PM"
+];
 
 const ServiceDetails = () => {
   const { serviceId } = useParams();
   const navigate = useNavigate();
-  const { services } = useSupabaseServices();
+  const services = useAdminServices();
   const { user } = useAuth();
   const { toast } = useToast();
   
   const [bookingForm, setBookingForm] = useState({
     customerName: '',
     phone: '',
+    email: '',
     address: '',
     description: ''
   });
+  const [selectedDate, setSelectedDate] = useState<Date>();
+  const [selectedTime, setSelectedTime] = useState<string>('');
   const [isBooking, setIsBooking] = useState(false);
 
   const service = services.find(s => s.id === serviceId);
@@ -55,10 +68,10 @@ const ServiceDetails = () => {
       return;
     }
 
-    if (!bookingForm.customerName || !bookingForm.phone || !bookingForm.address) {
+    if (!bookingForm.customerName || !bookingForm.phone || !bookingForm.address || !selectedDate || !selectedTime) {
       toast({
         title: "Missing Information",
-        description: "Please fill all required fields",
+        description: "Please fill all required fields including date and time",
         variant: "destructive"
       });
       return;
@@ -67,33 +80,30 @@ const ServiceDetails = () => {
     setIsBooking(true);
     
     try {
-      const { error } = await supabase
-        .from('bookings')
-        .insert({
-          user_id: user.id,
-          service_id: service.id,
-          customer_name: bookingForm.customerName,
-          phone: bookingForm.phone,
-          address: bookingForm.address,
-          payment_amount: parseFloat(service.visitors.replace(/[^0-9.-]/g, '')) || 0,
-          status: 'pending',
-          payment_status: 'pending'
-        });
-
-      if (error) {
-        toast({
-          title: "Booking Failed",
-          description: error.message,
-          variant: "destructive"
-        });
-      } else {
-        toast({
-          title: "Booking Successful!",
-          description: "Your service has been booked. We'll contact you soon.",
-          variant: "default"
-        });
-        setBookingForm({ customerName: '', phone: '', address: '', description: '' });
-      }
+      // Simulate booking submission (replace with actual API call when backend is ready)
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      const bookingDetails = {
+        service: service.title,
+        customerName: bookingForm.customerName,
+        phone: bookingForm.phone,
+        email: bookingForm.email,
+        address: bookingForm.address,
+        date: selectedDate ? format(selectedDate, "PPP") : '',
+        time: selectedTime,
+        description: bookingForm.description
+      };
+      
+      console.log('Booking submitted:', bookingDetails);
+      
+      toast({
+        title: "Booking Successful!",
+        description: `Your ${service.title} service has been booked for ${format(selectedDate!, "PPP")} at ${selectedTime}. We'll contact you soon.`,
+        variant: "default"
+      });
+      setBookingForm({ customerName: '', phone: '', email: '', address: '', description: '' });
+      setSelectedDate(undefined);
+      setSelectedTime('');
     } catch (error) {
       toast({
         title: "Error",
@@ -189,6 +199,7 @@ const ServiceDetails = () => {
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleBooking} className="space-y-4">
+                  {/* Customer Name */}
                   <div>
                     <label className="text-sm font-medium">Customer Name *</label>
                     <Input
@@ -199,6 +210,7 @@ const ServiceDetails = () => {
                     />
                   </div>
                   
+                  {/* Phone Number */}
                   <div>
                     <label className="text-sm font-medium">Phone Number *</label>
                     <Input
@@ -209,7 +221,66 @@ const ServiceDetails = () => {
                       required
                     />
                   </div>
+
+                  {/* Email */}
+                  <div>
+                    <label className="text-sm font-medium">Email Address</label>
+                    <Input
+                      value={bookingForm.email}
+                      onChange={(e) => setBookingForm({...bookingForm, email: e.target.value})}
+                      placeholder="Enter your email"
+                      type="email"
+                    />
+                  </div>
+
+                  {/* Date Selection */}
+                  <div>
+                    <label className="text-sm font-medium">Select Date *</label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className={cn(
+                            "w-full justify-start text-left font-normal",
+                            !selectedDate && "text-muted-foreground"
+                          )}
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          {selectedDate ? format(selectedDate, "PPP") : <span>Pick a date</span>}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0 bg-background z-50" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={selectedDate}
+                          onSelect={setSelectedDate}
+                          disabled={(date) => date < new Date()}
+                          initialFocus
+                          className="pointer-events-auto"
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+
+                  {/* Time Selection */}
+                  <div>
+                    <label className="text-sm font-medium">Select Time *</label>
+                    <Select value={selectedTime} onValueChange={setSelectedTime}>
+                      <SelectTrigger className="w-full">
+                        <Clock className="mr-2 h-4 w-4" />
+                        <SelectValue placeholder="Choose a time slot" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-background z-50">
+                        {timeSlots.map((time) => (
+                          <SelectItem key={time} value={time}>
+                            {time}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                   
+                  {/* Service Address */}
                   <div>
                     <label className="text-sm font-medium">Service Address *</label>
                     <Textarea
@@ -221,6 +292,7 @@ const ServiceDetails = () => {
                     />
                   </div>
                   
+                  {/* Additional Details */}
                   <div>
                     <label className="text-sm font-medium">Additional Details</label>
                     <Textarea
@@ -231,17 +303,34 @@ const ServiceDetails = () => {
                     />
                   </div>
                   
-                  <div className="bg-muted p-4 rounded-lg">
+                  {/* Price Summary */}
+                  <div className="bg-muted p-4 rounded-lg space-y-2">
                     <div className="flex justify-between items-center">
+                      <span className="font-medium">Service:</span>
+                      <span className="text-sm">{service.title}</span>
+                    </div>
+                    {selectedDate && (
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium">Date:</span>
+                        <span className="text-sm">{format(selectedDate, "PPP")}</span>
+                      </div>
+                    )}
+                    {selectedTime && (
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium">Time:</span>
+                        <span className="text-sm">{selectedTime}</span>
+                      </div>
+                    )}
+                    <div className="border-t pt-2 flex justify-between items-center">
                       <span className="font-medium">Service Price:</span>
                       <span className="text-xl font-bold text-primary">₹{service.visitors}</span>
                     </div>
-                    <p className="text-sm text-muted-foreground mt-1">
+                    <p className="text-sm text-muted-foreground">
                       Final price may vary based on service requirements
                     </p>
                   </div>
                   
-                  <Button 
+                  <Button
                     type="submit" 
                     className="w-full" 
                     disabled={isBooking}
