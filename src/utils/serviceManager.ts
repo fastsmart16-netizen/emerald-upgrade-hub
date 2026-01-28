@@ -117,11 +117,13 @@ export class ServiceManager {
     return [
       { id: "hoist", title: "Hoist Machine", price: "₹3,000", description: "Professional hoist machine repair and maintenance", icon: "Settings" },
       { id: "crane", title: "Crane Service", price: "₹5,000", description: "Expert crane repair and maintenance services", icon: "Construction" },
+      { id: "tower-crane", title: "Tower Crane", price: "₹6,000", description: "Tower crane installation, repair and maintenance services", icon: "Construction" },
       { id: "panel", title: "Panel Service", price: "₹2,000", description: "Electrical panel repair and installation", icon: "Zap" },
       { id: "ppm-panel", title: "PPM Panel", price: "₹2,500", description: "Preventive maintenance for panels", icon: "Zap" },
       { id: "hoist-crane-tpa", title: "Hoist Crane TPA", price: "₹4,000", description: "Third party audit for hoist crane", icon: "Construction" },
       { id: "plc", title: "PLC Systems", price: "₹2,500", description: "PLC programming and repair services", icon: "Cpu" },
       { id: "vfd", title: "VFD Systems", price: "₹2,000", description: "Variable frequency drive services", icon: "Activity" },
+      { id: "wiring-connection", title: "Wiring Connection", price: "₹1,500", description: "Professional electrical wiring and connection services", icon: "Zap" },
     ];
   }
 

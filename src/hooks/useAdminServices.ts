@@ -38,11 +38,13 @@ const iconMap = {
 const imageMap: Record<string, string> = {
   'hoist': hoistServiceImage,
   'crane': craneServiceImage,
+  'tower-crane': craneServiceImage,
   'panel': panelServiceImage,
   'ppm-panel': ppmPanelServiceImage,
   'hoist-crane-tpa': hoistCraneTPAServiceImage,
   'plc': plcServiceImage,
   'vfd': vfdServiceImage,
+  'wiring-connection': panelServiceImage,
 };
 
 export const useAdminServices = () => {
