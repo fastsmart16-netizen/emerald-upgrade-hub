@@ -341,7 +341,7 @@ const ServiceDetails = () => {
                   <div className="text-center">
                     <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
                       <Mail className="w-4 h-4" />
-                      <span>Emergency: fastsmart16@gmail.com</span>
+                      <span>Emergency: surajvishwa23@gmail.com</span>
                     </div>
                   </div>
                 </form>

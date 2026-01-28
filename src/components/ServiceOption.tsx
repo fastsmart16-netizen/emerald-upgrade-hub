@@ -71,7 +71,7 @@ Please contact me to schedule an appointment.
 
 Thank you!`);
     
-    window.open(`mailto:fastsmart16@gmail.com?subject=${subject}&body=${body}`, '_blank');
+    window.open(`mailto:surajvishwa23@gmail.com?subject=${subject}&body=${body}`, '_blank');
     
     toast({
       title: "Email Booking",
