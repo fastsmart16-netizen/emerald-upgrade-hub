@@ -123,7 +123,7 @@ export class ServiceManager {
       { id: "hoist-crane-tpa", title: "Hoist Crane TPA", price: "₹4,000", description: "Third party audit for hoist crane", icon: "Construction" },
       { id: "plc", title: "PLC Systems", price: "₹2,500", description: "PLC programming and repair services", icon: "Cpu" },
       { id: "vfd", title: "VFD Systems", price: "₹2,000", description: "Variable frequency drive services", icon: "Activity" },
-      { id: "wiring-connection", title: "Wiring Connection", price: "₹1,500", description: "Professional electrical wiring and connection services", icon: "Zap" },
+      { id: "wiring-connection", title: "Wiring Connection", price: "₹4,500", description: "Professional electrical wiring and connection services", icon: "Zap" },
     ];
   }
 
