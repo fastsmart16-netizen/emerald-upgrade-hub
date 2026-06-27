@@ -6,7 +6,8 @@ import {
   MapPin,
   Settings,
   LogOut,
-  User
+  User,
+  Package
 } from "lucide-react";
 import Logo from "@/components/Logo";
 import ServiceCard from "@/components/ServiceCard";
@@ -42,7 +43,16 @@ const Index = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Logo />
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 flex-wrap justify-end">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => navigate('/products')}
+                className="gap-2"
+              >
+                <Package className="h-4 w-4" />
+                Products
+              </Button>
               {user ? (
                 <div className="flex items-center gap-2">
                   <span className="text-sm text-muted-foreground">

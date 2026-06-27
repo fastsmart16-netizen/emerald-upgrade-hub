@@ -10,6 +10,8 @@ import ServiceDetails from "./pages/ServiceDetails";
 import Admin from "./pages/Admin";
 import AddService from "./pages/AddService";
 import Auth from "./pages/Auth";
+import Products from "./pages/Products";
+import AdminProducts from "./pages/AdminProducts";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,6 +35,12 @@ const App = () => (
             <Route path="/add-service" element={
               <ProtectedRoute requireAdmin={true}>
                 <AddService />
+              </ProtectedRoute>
+            } />
+            <Route path="/products" element={<Products />} />
+            <Route path="/admin/products" element={
+              <ProtectedRoute requireAdmin={true}>
+                <AdminProducts />
               </ProtectedRoute>
             } />
             <Route path="*" element={<NotFound />} />

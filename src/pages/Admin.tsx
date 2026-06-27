@@ -259,10 +259,16 @@ const Admin = () => {
                 <Settings className="w-5 h-5" />
                 Current Services ({services.length})
               </CardTitle>
-              <Button onClick={() => navigate('/add-service')} className="flex items-center gap-2">
-                <Plus className="w-4 h-4" />
-                Add New Service
-              </Button>
+              <div className="flex gap-2 flex-wrap">
+                <Button onClick={() => navigate('/admin/products')} variant="outline" className="flex items-center gap-2">
+                  <Settings className="w-4 h-4" />
+                  Manage Products
+                </Button>
+                <Button onClick={() => navigate('/add-service')} className="flex items-center gap-2">
+                  <Plus className="w-4 h-4" />
+                  Add New Service
+                </Button>
+              </div>
             </div>
           </CardHeader>
           <CardContent>
