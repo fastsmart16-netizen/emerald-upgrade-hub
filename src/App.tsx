@@ -10,6 +10,8 @@ import ServiceDetails from "./pages/ServiceDetails";
 import Admin from "./pages/Admin";
 import AddService from "./pages/AddService";
 import Auth from "./pages/Auth";
+import Products from "./pages/Products";
+import AdminProducts from "./pages/AdminProducts";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
