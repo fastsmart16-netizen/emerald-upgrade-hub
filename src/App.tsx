@@ -37,6 +37,13 @@ const App = () => (
                 <AddService />
               </ProtectedRoute>
             } />
+            <Route path="/products" element={<Products />} />
+            <Route path="/admin/products" element={
+              <ProtectedRoute requireAdmin={true}>
+                <AdminProducts />
+              </ProtectedRoute>
+            } />
+            <Route path="*" element={<NotFound />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
