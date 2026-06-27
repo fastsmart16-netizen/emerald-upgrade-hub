@@ -6,7 +6,8 @@ import {
   MapPin,
   Settings,
   LogOut,
-  User
+  User,
+  Package
 } from "lucide-react";
 import Logo from "@/components/Logo";
 import ServiceCard from "@/components/ServiceCard";
