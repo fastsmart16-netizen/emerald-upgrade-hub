@@ -1,0 +1,11 @@
+# SYNFADOR — Industrial Equipment Services
+
+> Professional repair and maintenance for industrial equipment including hoists, cranes, electrical panels, PLC systems, and VFD drives.
+
+## Pages
+
+- [/](/): Browse available industrial equipment services and book online.
+
+## Optional
+
+- [/service/:id](/service/sample): View detailed service information and booking form.
